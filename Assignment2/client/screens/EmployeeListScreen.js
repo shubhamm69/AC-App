@@ -22,6 +22,7 @@ const EmployeeListScreen = ({ navigation }) => {
         try {
             await deleteEmployee(id);
             fetchEmployees();
+            Alert.alert('Success', 'Employee deleted!');
         } catch (error) {
             console.error('Error deleting employee:', error);
         }

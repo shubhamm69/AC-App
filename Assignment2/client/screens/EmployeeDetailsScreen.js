@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { getEmployeeById } from '../services/api';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { getEmployeeById, deleteEmployee, updateEmployee } from '../services/api';
 
-const EmployeeDetailsScreen = ({ route }) => {
+const EmployeeDetailsScreen = ({ route, navigation }) => {
     const [employee, setEmployee] = useState(null);
     const { id } = route.params;
 
@@ -16,6 +16,30 @@ const EmployeeDetailsScreen = ({ route }) => {
             setEmployee(data);
         } catch (error) {
             console.error('Error fetching employee details:', error);
+        }
+    };
+
+    const handleDeleteEmployee = async () => {
+        try {
+            await deleteEmployee(id);
+            navigation.goBack();
+            Alert.alert('Success', 'Employee deleted!');
+        } catch (error) {
+            console.error('Error deleting employee:', error);
+        }
+    };
+
+    const handleEditEmployee = () => {
+        navigation.navigate('EmployeeForm', { id });
+    };
+
+    const handleUpdateEmployee = async (updatedEmployee) => {
+        try {
+            await updateEmployee(id, updatedEmployee);
+            Alert.alert('Success', 'Employee details updated!');
+            fetchEmployee();
+        } catch (error) {
+            console.error('Error updating employee details:', error);
         }
     };
 
@@ -47,6 +71,12 @@ const EmployeeDetailsScreen = ({ route }) => {
                     <Text style={styles.value}>{employee.employee_age}</Text>
                 </View>
             )}
+            <TouchableOpacity style={styles.editButton} onPress={handleEditEmployee}>
+                <Text style={styles.editButtonText}>Edit Employee</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteEmployee}>
+                <Text style={styles.deleteButtonText}>Delete Employee</Text>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -71,6 +101,32 @@ const styles = StyleSheet.create({
     },
     value: {
         flex: 1,
+    },
+    editButton: {
+        marginTop: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        backgroundColor: '#ffc107',
+        borderRadius: 8,
+        alignItems: 'center',
+    },
+    editButtonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    deleteButton: {
+        marginTop: 8,
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        backgroundColor: '#dc3545',
+        borderRadius: 8,
+        alignItems: 'center',
+    },
+    deleteButtonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 });
 

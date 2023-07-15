@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import { createEmployee, updateEmployee } from '../services/api';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { getEmployeeById, updateEmployee, createEmployee } from '../services/api';
 
 const EmployeeFormScreen = ({ navigation, route }) => {
     const [name, setName] = useState('');
@@ -10,6 +10,23 @@ const EmployeeFormScreen = ({ navigation, route }) => {
     const id = route.params?.id ?? null;
 
     const isEditMode = id !== null;
+
+    useEffect(() => {
+        if (isEditMode) {
+            fetchEmployee();
+        }
+    }, []);
+
+    const fetchEmployee = async () => {
+        try {
+            const employee = await getEmployeeById(id);
+            setName(employee.employee_name);
+            setSalary(employee.employee_salary.toString());
+            setAge(employee.employee_age ? employee.employee_age.toString() : '');
+        } catch (error) {
+            console.error('Error fetching employee details:', error);
+        }
+    };
 
     const handleSubmit = async () => {
         const employee = {
@@ -25,10 +42,13 @@ const EmployeeFormScreen = ({ navigation, route }) => {
                 await createEmployee(employee);
             }
             navigation.goBack();
+            const successMessage = isEditMode ? 'Employee updated!' : 'Employee added!';
+            Alert.alert('Success', successMessage);
         } catch (error) {
             console.error('Error submitting employee:', error);
         }
     };
+
     return (
         <View style={styles.container}>
             <Text style={styles.label}>Name:</Text>
