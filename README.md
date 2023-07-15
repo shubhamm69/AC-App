@@ -1,18 +1,13 @@
 # AC-App
 
-$ cd Assignment2
-
-$ cd server
-
+## Start Node-Express Server (Server)
+$ cd Assignment2/server
 $ npm i
-
 $ npm start
 
-
-$ cd client
-
+## Start Expo App (Client)
+$ cd Assignment2/client
 $ yarn
-
 $ npx expo start
 
 
