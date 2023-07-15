@@ -2,32 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { View, FlatList, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 import { getEmployees, deleteEmployee } from '../services/api';
 import { FontAwesome } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 
 const EmployeeListScreen = ({ navigation }) => {
     const [employees, setEmployees] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
 
-    useEffect(() => {
-        fetchEmployees();
-    }, []);
-
-    useEffect(() => {
-        if (searchQuery) {
-            const filteredEmployees = employees.filter((employee) =>
-                employee.employee_name.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-            setSearchResults(filteredEmployees);
-        } else {
-            setSearchResults(employees);
-        }
-    }, [searchQuery]);
-
     const fetchEmployees = async () => {
         try {
             const data = await getEmployees();
             setEmployees(data);
             setSearchResults(data);
+            setSearchQuery('');
         } catch (error) {
             console.error('Error fetching employees:', error);
         }
@@ -71,6 +58,16 @@ const EmployeeListScreen = ({ navigation }) => {
         </View>
     );
 
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchEmployees();
+
+            return () => {
+                // Cleanup function
+            };
+        }, [])
+    );
+
     return (
         <View style={styles.container}>
             <View style={styles.searchContainer}>
@@ -88,10 +85,7 @@ const EmployeeListScreen = ({ navigation }) => {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={renderEmployeeItem}
             />
-            <TouchableOpacity
-                style={styles.addButton}
-                onPress={() => navigation.navigate('EmployeeForm')}
-            >
+            <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('EmployeeForm')}>
                 <Text style={styles.addButtonText}>Add Employee</Text>
             </TouchableOpacity>
         </View>

@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { getEmployeeById, deleteEmployee, updateEmployee } from '../services/api';
+import { getEmployeeById, deleteEmployee } from '../services/api';
 
 const EmployeeDetailsScreen = ({ route, navigation }) => {
     const [employee, setEmployee] = useState(null);
     const { id } = route.params;
-
-    useEffect(() => {
-        fetchEmployee();
-    }, []);
 
     const fetchEmployee = async () => {
         try {
@@ -22,7 +18,7 @@ const EmployeeDetailsScreen = ({ route, navigation }) => {
     const handleDeleteEmployee = async () => {
         try {
             await deleteEmployee(id);
-            navigation.goBack();
+            navigation.navigate('EmployeeList', { refresh: true }); // Navigate to EmployeeList and refresh the list
             Alert.alert('Success', 'Employee deleted!');
         } catch (error) {
             console.error('Error deleting employee:', error);
@@ -33,15 +29,17 @@ const EmployeeDetailsScreen = ({ route, navigation }) => {
         navigation.navigate('EmployeeForm', { id });
     };
 
-    const handleUpdateEmployee = async (updatedEmployee) => {
-        try {
-            await updateEmployee(id, updatedEmployee);
-            Alert.alert('Success', 'Employee details updated!');
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
             fetchEmployee();
-        } catch (error) {
-            console.error('Error updating employee details:', error);
-        }
-    };
+        });
+
+        return unsubscribe;
+    }, [navigation]);
+
+    useEffect(() => {
+        fetchEmployee();
+    }, []);
 
     if (!employee) {
         return (
@@ -93,6 +91,7 @@ const styles = StyleSheet.create({
     },
     employeeContainer: {
         flexDirection: 'row',
+        alignItems: 'center',
         marginBottom: 8,
     },
     label: {
