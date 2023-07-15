@@ -2,12 +2,16 @@
 
 ## Start Node-Express Server (Server)
 $ cd Assignment2/server
+
 $ npm i
+
 $ npm start
 
 ## Start Expo App (Client)
 $ cd Assignment2/client
+
 $ yarn
+
 $ npx expo start
 
 
