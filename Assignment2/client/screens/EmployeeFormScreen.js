@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { createEmployee, updateEmployee } from '../services/api';
 
 const EmployeeFormScreen = ({ navigation, route }) => {
@@ -29,21 +29,72 @@ const EmployeeFormScreen = ({ navigation, route }) => {
             console.error('Error submitting employee:', error);
         }
     };
-
     return (
-        <View>
-            <Text>Name:</Text>
-            <TextInput value={name} onChangeText={setName} />
+        <View style={styles.container}>
+            <Text style={styles.label}>Name:</Text>
+            <TextInput
+                style={styles.input}
+                value={name}
+                onChangeText={setName}
+                placeholder="Enter name"
+            />
 
-            <Text>Salary:</Text>
-            <TextInput value={salary} onChangeText={setSalary} />
+            <Text style={styles.label}>Salary:</Text>
+            <TextInput
+                style={styles.input}
+                value={salary}
+                onChangeText={setSalary}
+                placeholder="Enter salary"
+                keyboardType="numeric"
+            />
 
-            <Text>Age:</Text>
-            <TextInput value={age} onChangeText={setAge} />
+            <Text style={styles.label}>Age:</Text>
+            <TextInput
+                style={styles.input}
+                value={age}
+                onChangeText={setAge}
+                placeholder="Enter age"
+                keyboardType="numeric"
+            />
 
-            <Button title={isEditMode ? 'Update' : 'Create'} onPress={handleSubmit} />
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                <Text style={styles.buttonText}>{isEditMode ? 'Update' : 'Create'}</Text>
+            </TouchableOpacity>
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingHorizontal: 16,
+        paddingTop: 16,
+    },
+    label: {
+        fontSize: 16,
+        marginBottom: 8,
+        fontWeight: 'bold',
+    },
+    input: {
+        height: 40,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 4,
+        paddingHorizontal: 8,
+        marginBottom: 16,
+    },
+    button: {
+        backgroundColor: '#007bff',
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 8,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+});
 
 export default EmployeeFormScreen;
