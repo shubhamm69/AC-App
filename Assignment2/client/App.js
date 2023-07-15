@@ -1,20 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import HomeScreen from './screens/HomeScreen';
+import EmployeeListScreen from './screens/EmployeeListScreen';
+import EmployeeDetailsScreen from './screens/EmployeeDetailsScreen';
+import EmployeeFormScreen from './screens/EmployeeFormScreen';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start hshs on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+const Stack = createStackNavigator();
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const App = () => {
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName="Home">
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="EmployeeList" component={EmployeeListScreen} />
+                <Stack.Screen name="EmployeeDetails" component={EmployeeDetailsScreen} />
+                <Stack.Screen name="EmployeeForm" component={EmployeeFormScreen} />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
+};
+
+export default App;

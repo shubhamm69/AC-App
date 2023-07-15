@@ -1,11 +1,12 @@
-import React from 'react'
+import React from 'react';
+import { View, Button } from 'react-native';
 
-function HomeScreen() {
+const HomeScreen = ({ navigation }) => {
     return (
-        <div>
+        <View>
+            <Button title="Employee List" onPress={() => navigation.navigate('EmployeeList')} />
+        </View>
+    );
+};
 
-        </div>
-    )
-}
-
-export default HomeScreen
+export default HomeScreen;
