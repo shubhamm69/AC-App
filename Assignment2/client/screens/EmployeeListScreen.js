@@ -31,6 +31,14 @@ const EmployeeListScreen = ({ navigation }) => {
         }
     };
 
+    const handleSearch = (query) => {
+        setSearchQuery(query);
+        const filteredEmployees = employees.filter((employee) =>
+            employee.employee_name.toLowerCase().includes(query.toLowerCase())
+        );
+        setSearchResults(filteredEmployees);
+    };
+
     const renderEmployeeItem = ({ item }) => (
         <View style={styles.employeeItemContainer}>
             <TouchableOpacity
@@ -75,7 +83,7 @@ const EmployeeListScreen = ({ navigation }) => {
                 <TextInput
                     style={styles.searchInput}
                     value={searchQuery}
-                    onChangeText={setSearchQuery}
+                    onChangeText={handleSearch}
                     placeholder="Search employee"
                     placeholderTextColor="#007bff"
                 />
