@@ -3,13 +3,18 @@
 $ cd Assignment2
 
 $ cd server
+
 $ npm i
+
 $ npm start
 
 
 $ cd client
+
 $ yarn
+
 $ npx expo start
+
 
 
 HomeScreen
