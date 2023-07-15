@@ -1,11 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button } from 'react-native';
+import { createEmployee, updateEmployee } from '../services/api';
 
-function EmployeeFormScreen() {
+const EmployeeFormScreen = ({ navigation, route }) => {
+    const [name, setName] = useState('');
+    const [salary, setSalary] = useState('');
+    const [age, setAge] = useState('');
+
+    const id = route.params?.id ?? null;
+
+    const isEditMode = id !== null;
+
+    const handleSubmit = async () => {
+        const employee = {
+            employee_name: name,
+            employee_salary: salary,
+            employee_age: age,
+        };
+
+        try {
+            if (isEditMode) {
+                await updateEmployee(id, employee);
+            } else {
+                await createEmployee(employee);
+            }
+            navigation.goBack();
+        } catch (error) {
+            console.error('Error submitting employee:', error);
+        }
+    };
+
     return (
-        <div>
+        <View>
+            <Text>Name:</Text>
+            <TextInput value={name} onChangeText={setName} />
 
-        </div>
-    )
-}
+            <Text>Salary:</Text>
+            <TextInput value={salary} onChangeText={setSalary} />
 
-export default EmployeeFormScreen
+            <Text>Age:</Text>
+            <TextInput value={age} onChangeText={setAge} />
+
+            <Button title={isEditMode ? 'Update' : 'Create'} onPress={handleSubmit} />
+        </View>
+    );
+};
+
+export default EmployeeFormScreen;

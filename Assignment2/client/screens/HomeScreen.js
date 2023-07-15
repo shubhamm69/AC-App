@@ -5,6 +5,7 @@ const HomeScreen = ({ navigation }) => {
     return (
         <View>
             <Button title="Employee List" onPress={() => navigation.navigate('EmployeeList')} />
+            <Button title="Add Employee" onPress={() => navigation.navigate('EmployeeForm')} />
         </View>
     );
 };
