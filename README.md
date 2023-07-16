@@ -26,7 +26,7 @@ This is a web application for managing employee records. It provides basic CRUD 
 1. Clone the repository:
 
 ```
-$ git clone https://github.com/shubhamm69/AC-App
+git clone https://github.com/shubhamm69/AC-App
 ```
 
 #### Server
@@ -34,19 +34,19 @@ $ git clone https://github.com/shubhamm69/AC-App
 1. Open the server folder:
 
 ```
-$ cd AC-App/Assignment2/server
+cd AC-App/Assignment2/server
 ```
 
 2. Install the dependencies:
 
 ```
-$ npm install
+npm install
 ```
 
 3. Start the server:
 
 ```
-$ npm start
+npm start
 ```
 
 4. The server will start running on `http://localhost:6900`.
@@ -55,19 +55,19 @@ $ npm start
 
 1. Open the client folder:
 ```
-$ cd AC-App/Assignment2/client
+cd AC-App/Assignment2/client
 ```
 
 2. Install the dependencies:
 
 ```
-$ npm install
+npm install
 ```
 
 3. Start the client:
 
 ```
-$ npx expo start
+npx expo start
 ```
 
 4. The Expo development server will start, and you can run the app on an emulator or physical device.
